@@ -1,0 +1,7 @@
+interface:
+  display_name: "Idea Refining"
+  short_description: "Refine vague requests into clear execution briefs"
+  default_prompt: "Use $idea-refining to clarify and narrow my request before execution."
+
+policy:
+  allow_implicit_invocation: true

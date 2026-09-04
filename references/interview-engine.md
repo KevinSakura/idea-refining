@@ -45,6 +45,8 @@ Classify relevant gaps as:
 - **Important:** omission creates meaningful risk, rework, or a substantially different result.
 - **Optional:** useful only if it clearly improves the result.
 
+Classification is operational, not permanent. Promote an important gap to unknown-critical when it cannot be assumed safely and leaving it unresolved could materially change the solution category, scope, execution path, or acceptance criteria. Do not promote it merely because more detail would be useful.
+
 ## Candidate-question value gate
 
 Generate candidate questions internally, then keep a question only when it passes all applicable checks:
@@ -57,6 +59,12 @@ Generate candidate questions internally, then keep a question only when it passe
 6. **Answerability:** the user can understand the decision, or the question can provide clear options.
 
 Delete a candidate if its downstream consequence cannot be stated in one sentence.
+
+Only promote a candidate into the next round when all of these are true:
+
+- it represents an unknown-critical decision rather than an optional improvement;
+- a disclosed, low-risk assumption would not resolve it reliably;
+- leaving it unresolved could materially change the solution category, included or excluded scope, execution path, or acceptance criteria.
 
 Do not use a numeric formula. Rank candidates qualitatively by:
 
@@ -72,7 +80,7 @@ Before asking a question:
 1. Reduce it to its semantic intent, such as "target audience," "deployment environment," or "desired emotional tone."
 2. Compare that intent with confirmed, inferred, assumed, skipped, and already asked items.
 3. If partially answered, ask only for the missing portion.
-4. Merge overlapping candidates into one clear question.
+4. Merge overlapping candidates only when they form one natural decision cluster. Do not combine independent choices merely to reduce the visible question count.
 5. Do not restate an unanswered question unchanged. Explain why it blocks progress, offer options, or mark it unresolved.
 
 Repeated wording is not the only duplication. Questions are duplicates when their answers drive the same decision.
@@ -91,13 +99,15 @@ Use dependencies. For example, do not ask database details until persistent data
 
 ## Construct each round
 
+A **decision cluster** is one coherent choice the user can answer as a unit and that selects or rules out a meaningful downstream branch. Closely coupled attributes may share a cluster when separating them would be artificial. Technology stack, data model, deployment, visual style, and unrelated feature choices are separate clusters unless the current task makes them genuinely interdependent.
+
 At the start of a round, briefly show:
 
 - **Current narrowed task:** a concise statement of the task as currently understood.
 - **Approximate completeness:** a band or approximate percentage.
 - **Round purpose:** the boundary or risk this round will resolve.
 
-Then ask normally 3-5 numbered, related questions. If only one or two questions pass the value gate, ask only those.
+Then ask zero to three numbered decision clusters. There is no minimum. Rank eligible clusters by boundary gain and ask only the highest-value set. If no cluster passes the gate, ask nothing and move to the appropriate completion path.
 
 For each question:
 
@@ -122,6 +132,8 @@ Use these approximate bands:
 
 These values are qualitative. Never imply a mathematical measurement.
 
+Completeness is informational only. Never ask another question solely to raise the displayed band or percentage.
+
 Stop when:
 
 - all critical items are confirmed or explicitly assumed;
@@ -130,6 +142,18 @@ Stop when:
 - execution risk is proportionate to the requested deliverable.
 
 Stop early even after one question if these conditions are met.
+
+## Mandatory post-answer stop check
+
+After every user response, perform this check before drafting another round:
+
+1. Update confirmed, inferred, assumed, unknown-critical, and superseded items.
+2. Count the remaining unknown-critical decisions.
+3. If none remain, stop the interview immediately. Do not ask important or optional questions to produce a more complete specification.
+4. For each remaining item, compare another question with a clearly disclosed, low-risk assumption. Prefer the assumption when it will not materially change the solution category, scope, execution path, or acceptance criteria.
+5. Ask another round only for the highest-value unresolved critical clusters that cannot be assumed safely.
+
+When stopping with non-critical gaps, disclose only the assumptions that matter to execution. Do not turn skipped optional details into hidden requirements.
 
 ## Round limits and continuation
 

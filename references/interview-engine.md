@@ -79,7 +79,7 @@ Before asking a question:
 
 1. Reduce it to its semantic intent, such as "target audience," "deployment environment," or "desired emotional tone."
 2. Compare that intent with confirmed, inferred, assumed, skipped, and already asked items.
-3. If partially answered, ask only for the missing portion.
+3. Map the answer to individual decisions, not question numbers. A partial answer does not resolve every subitem. Ask only for the missing portion that still materially affects delivery; do not repeat answered parts. "I don't know" does not authorize invented facts: omit nonessential unknowns, use an authorized placeholder, or report a missing required dependency.
 4. Merge overlapping candidates only when they form one natural decision cluster. Do not combine independent choices merely to reduce the visible question count.
 5. Do not restate an unanswered question unchanged. Explain why it blocks progress, offer options, or mark it unresolved.
 
@@ -89,6 +89,10 @@ Repeated wording is not the only duplication. Questions are duplicates when thei
 
 First determine what the user wants delivered. Do not ask implementation questions for a concept-only request.
 
+Treat deliverable type as an upstream decision. If two plausible interpretations would produce different artifacts, execution depths, or acceptance requirements and the available context does not resolve the difference, keep it unknown-critical. For example, an outline and a publishable article, a design and a working implementation, or an analysis and an external action are not interchangeable deliverables. When this distinction shapes the remaining questions, prioritize it in the first round instead of first collecting broad background. Independent critical questions may share that round; defer questions that depend on an unresolved interpretation.
+
+Use explicit instructions and clear context without reconfirming them. Ambiguous verbs such as "plan," "make," or "organize" are cues to inspect context, not automatic triggers for a question. Do not turn a material choice into a low-risk assumption merely because one interpretation is easier to deliver. When the user explicitly asks for no clarification or accepts your choice, use the corresponding user-control path, disclose the choice, and preserve scope and permission limits.
+
 Examples:
 
 - For an article concept, determine purpose, audience, form, subject or conflict, setting or evidence, tone, length, and constraints only as relevant.
@@ -96,6 +100,8 @@ Examples:
 - For a recommendation, ask only preferences and constraints that would materially change the candidates.
 
 Use dependencies. For example, do not ask database details until persistent data is actually in scope.
+
+Ask only questions whose prerequisites are settled. Independent critical decisions may share a round within the existing cluster limit; a question that depends on another unanswered question belongs to a later round. Recompute the relevant branches after each answer without expanding into optional branches merely to exhaust the tree.
 
 ## Construct each round
 
@@ -111,12 +117,12 @@ Then ask zero to three numbered decision clusters. There is no minimum. Rank eli
 
 For each question:
 
-- state what decision it will settle;
+- state the specific decision it will settle and make clear what information would answer it; avoid open-ended requests for every aspect of the user's background;
 - use 2-4 options when there are clear alternatives;
 - say whether options are single-choice or multi-select;
 - allow a free-form answer;
 - mark a recommendation only when the user lacks a sound basis for choosing;
-- explain the recommendation's effect briefly.
+- explain the recommendation's effect and scope cost briefly; do not default to a larger bundle such as both a plan and a finished deliverable without a reason grounded in the user's goal.
 
 Keep the round easy to answer. Do not bury questions in long explanations.
 
@@ -147,13 +153,15 @@ Stop early even after one question if these conditions are met.
 
 After every user response, perform this check before drafting another round:
 
-1. Update confirmed, inferred, assumed, unknown-critical, and superseded items.
-2. Count the remaining unknown-critical decisions.
-3. If none remain, stop the interview immediately. Do not ask important or optional questions to produce a more complete specification.
-4. For each remaining item, compare another question with a clearly disclosed, low-risk assumption. Prefer the assumption when it will not materially change the solution category, scope, execution path, or acceptance criteria.
-5. Ask another round only for the highest-value unresolved critical clusters that cannot be assumed safely.
+1. Update confirmed, inferred, assumed, unknown-critical, and superseded items from what the user actually answered. Retain unresolved necessary subitems; do not mark an entire question complete merely because it received a reply. The user's no-clarification controls still apply.
+2. Before counting remaining unknown-critical decisions, check that the intended artifact, execution depth, and what counts as finished follow from the user's instructions, accessible sources, or an allowed, disclosed assumption. Include required components and quality constraints only where they materially affect acceptance. If materially different deliverables remain plausible, keep the difference unknown-critical rather than clearing it by selecting one yourself.
+3. Reassess downstream decisions affected by any changed upstream answer. Preserve unaffected facts and do not ask for them again.
+4. For each remaining critical item, compare another question with a clearly disclosed, low-risk assumption. Prefer the assumption only when it will not materially change the solution category, scope, execution path, or acceptance criteria. Explicit answer-directly or no-clarification instructions end the interview through the corresponding control path, not by pretending that unresolved facts were confirmed.
+5. If no critical item remains, stop immediately. Otherwise ask only the highest-value unresolved critical clusters whose prerequisites are settled and that cannot be assumed safely.
 
 When stopping with non-critical gaps, disclose only the assumptions that matter to execution. Do not turn skipped optional details into hidden requirements.
+
+This is an internal consistency check, not a fixed questionnaire or a request for universal final approval. A detailed audience description or a rich source brief does not compensate for an unresolved deliverable type.
 
 ## Round limits and continuation
 
@@ -176,6 +184,7 @@ At a forced stop:
 - Use the user's latest explicit answer as current truth.
 - For a material contradiction, identify the conflicting decisions and ask for confirmation rather than silently choosing.
 - When new scope changes the task substantially, update the one-sentence task definition and reassess earlier decisions.
+- When an upstream choice changes, reopen only the dependent assumptions or requirements that may no longer apply. For example, changing a design request into implementation may make the runnable environment and verification relevant; it does not erase an unchanged audience or supplied source facts.
 - Do not include a history of discarded answers in the final output.
 
 ## Source material

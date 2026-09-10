@@ -6,7 +6,7 @@ Idea Refining is an instruction-only agent skill for Codex. It turns broad, ambi
 
 Its purpose is boundary definition, not exhaustive questioning. Every question must change a downstream decision about scope, content, implementation, reliability, quality, or acceptance. Redundant, inferable, premature, and low-impact questions are removed.
 
-Version 1.1 focuses on using fewer questions, stopping earlier, avoiding empty approval turns, and preserving the user's exact source information during handoff.
+Version 1.3 prioritizes consequential deliverable choices in the first round, tracks partially answered decisions, and checks actual outputs for source fidelity and explicit delivery constraints. It retains direct execution and no-clarification controls. Behavioral evaluation of v1.3 is pending.
 
 ## Quick start
 
@@ -76,6 +76,8 @@ A decision cluster is one coherent choice that selects or rules out a meaningful
 
 After every answer, the skill updates confirmed information, assumptions, superseded answers, and remaining critical unknowns. It stops immediately when no `unknown-critical` item remains. A disclosed low-risk assumption is preferred over another question when it will not materially change the result.
 
+A material ambiguity such as outline versus finished article remains critical until resolved. Clear instructions are used without reconfirmation; no-clarification requests still end the interview with disclosed assumptions. When an upstream choice changes, only affected downstream decisions are reopened.
+
 ### Execution routing
 
 Once the request is sufficiently bounded, the skill chooses among direct continuation, a visible handoff, and an incomplete definition. Ordinary text generation, read-only analysis, deterministic transformation, and implementation already authorized by the original request can continue without a second skill-level approval. Host safety and permission controls still apply.
@@ -139,7 +141,7 @@ Equivalent phrases in other languages are supported.
 
 ## Source fidelity
 
-Before a visible handoff, the skill checks protected facts against the conversation and supplied materials. It preserves numbers, ranges, units, dates, names, identifiers, field names, ordered values, required wording, and statistical meaning.
+Before sending an actual deliverable or visible handoff, the skill checks protected facts against the conversation and supplied materials. It preserves numbers, ranges, units, dates, names, identifiers, field names, ordered values, required wording, and statistical meaning.
 
 It must not broaden `2–3` candidates into `3–5`, turn a budget ceiling into a target, rename source fields, reinterpret an unsupported percentage, or present an inferred extension as a confirmed requirement. Execution-required source data must be included directly or referenced through a location the receiving agent can access; otherwise the dependency remains unresolved rather than being guessed.
 
